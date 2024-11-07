@@ -2,7 +2,6 @@
 
     const cw1Button = document.getElementById("showCw1ResultButton");
     const cw1Input = document.getElementById("capitalName");
-    pola = misia.cos;
 
     cw1Button.addEventListener("click", function (){
       fetch(`https://restcountries.com/v3.1/capital/${cw1Input.value}`)
