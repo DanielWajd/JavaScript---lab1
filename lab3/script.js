@@ -6,6 +6,8 @@
   const cw3Button = document.getElementById("cw3Button");
   const cw4Button = document.getElementById("cw4Button");
   const cw5Button = document.getElementById("cw5Button");
+  const cw6Button = document.getElementById("cw6Button");
+  const cw6Input = document.getElementById("gifPhrase");
 
   cw1Button.addEventListener("click", function (){
     fetch(`https://restcountries.com/v3.1/capital/${cw1Input.value}`)
@@ -185,6 +187,25 @@ cw5Button.addEventListener("click", async function () {
 
   
   
+});
+
+cw6Button.addEventListener("click", async function () {
+  answer.innerHTML = "Loading...";
+  const response = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=L6fYMrcNKiq2r5C8tWmYCgW72uNQYuck&q=${cw6Input.value}&limit=5&offset=0&rating=r&lang=pl&bundle=messaging_non_clips`, {
+    method: 'GET'
+  });
+
+  const data = await response.json();
+  
+  const gifUrl = data.data[0].images.original.url;
+
+  answer.innerHTML = "";
+  const img = document.createElement("img");
+  img.src = gifUrl;
+  img.alt = "Gif";
+  img.style.maxWidth = "100%"; 
+
+  answer.appendChild(img);
 });
 
 
