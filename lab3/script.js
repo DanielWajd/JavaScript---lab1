@@ -189,24 +189,29 @@ cw5Button.addEventListener("click", async function () {
   
 });
 
-cw6Button.addEventListener("click", async function () {
+let paging = 0;
+
+async function showGifs(){
   answer.innerHTML = "Loading...";
-  const response = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=L6fYMrcNKiq2r5C8tWmYCgW72uNQYuck&q=${cw6Input.value}&limit=5&offset=0&rating=r&lang=pl&bundle=messaging_non_clips`, {
+  const response = await fetch(`https://api.giphy.com/v1/gifs/search?api_key=L6fYMrcNKiq2r5C8tWmYCgW72uNQYuck&q=${cw6Input.value}&limit=5&offset=${paging}&rating=g&lang=pl&bundle=messaging_non_clips`, {
     method: 'GET'
   });
 
   const data = await response.json();
-  
-  const gifUrl = data.data[0].images.original.url;
-
   answer.innerHTML = "";
-  const img = document.createElement("img");
-  img.src = gifUrl;
-  img.alt = "Gif";
-  img.style.maxWidth = "100%"; 
+  
+  data.data.forEach(gif => {
+    const gifUrl = gif.images.original.url;
+    const img = document.createElement("img");
+    img.src = gifUrl;
+    img.alt = "Gif";
+    img.style.maxWidth = "100%"; 
 
   answer.appendChild(img);
-});
+  });
+  paging += 5;
+}
 
+cw6Button.addEventListener("click", showGifs);
 
 })();
