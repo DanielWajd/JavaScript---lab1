@@ -4,7 +4,9 @@
   const cw1Input = document.getElementById("capitalName");
   const cw2Button = document.getElementById("cw2Button");
   const cw3Button = document.getElementById("cw3Button");
-  
+  const cw4Button = document.getElementById("cw4Button");
+
+
   cw1Button.addEventListener("click", function (){
     fetch(`https://restcountries.com/v3.1/capital/${cw1Input.value}`)
       .then(response => response.json())
@@ -126,5 +128,44 @@ cw3Button.addEventListener("click", async function () {
   answerString += "</table>";
   answer.innerHTML = answerString;
 });
+
+cw4Button.addEventListener("click", async function () {
+  answer.innerHTML = "Loading...";
+  const response = await fetch("https://www.ncei.noaa.gov/cdo-web/api/v2/data?datasetid=GSOM&stationid=GHCND:USC00010008&units=standard&startdate=2010-05-01&enddate=2010-05-31", {
+    method: 'GET',
+    headers: {
+      'token': apiToken
+    }
+  });
+
+  const data = await response.json();
+  const dataArray = data.results;
+
+  answerString = `
+    <table>
+          <tr>
+            <th>Data type</th>
+            <th>Station</th>
+          </tr>
+  `;
+
+  dataArray.forEach(set => {
+    const datatype = set["datatype"];
+    const station = set["station"];
+
+    answerString +=
+    `
+    <tr>
+      <td>${datatype}</td>
+      <td>${station}</td>
+    </tr>
+    `
+  });
+  
+  answerString += "</table>";
+  answer.innerHTML = answerString;
+});
+
+
 
 })();
