@@ -3,7 +3,8 @@
   const cw1Button = document.getElementById("showCw1ResultButton");
   const cw1Input = document.getElementById("capitalName");
   const cw2Button = document.getElementById("cw2Button");
-
+  const cw3Button = document.getElementById("cw3Button");
+  
   cw1Button.addEventListener("click", function (){
     fetch(`https://restcountries.com/v3.1/capital/${cw1Input.value}`)
       .then(response => response.json())
@@ -86,5 +87,44 @@ cw2Button.addEventListener("click", async function () {
   answer.innerHTML = answerString;
 });
 
+
+cw3Button.addEventListener("click", async function () {
+  answer.innerHTML = "Loading...";
+  const response = await fetch("https://www.ncei.noaa.gov/cdo-web/api/v2/locations", {
+    method: 'GET',
+    headers: {
+      'token': apiToken
+    }
+  });
+
+  const data = await response.json();
+  const locations = data.results;
+
+  answerString = `
+    <table>
+          <tr>
+            <th>Location ID</th>
+            <th>Name</th>
+            <th>Country</th>
+          </tr>
+  `;
+  
+  locations.forEach(location => {
+    let id = location["id"];
+    let name = location["name"].split(",")[0];
+    let country = location["name"].split(",")[1];
+    answerString +=
+    `
+    <tr>
+      <td>${id}</td>
+      <td>${name}</td>
+      <td>${country}</td>
+    </tr>
+    `
+  });
+
+  answerString += "</table>";
+  answer.innerHTML = answerString;
+});
 
 })();
