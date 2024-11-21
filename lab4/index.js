@@ -2,6 +2,12 @@
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
+
+var corsOptions ={
+  origin: 'http://127.0.0.1:3001',
+  optionsSuccessStatus: 200
+}
 
 // define endpoint for exercise 1 here
 app.get('/math/circle/:r', (req, res) => {
@@ -72,7 +78,7 @@ app.get('/jokebook/categories', (req, res) => {
     res.json(categories);
 });
 
-app.get('/jokebook/joke/:category', (req, res) => {
+app.get('/jokebook/joke/:category', cors(corsOptions), (req, res, next) => {
     let joke;
   if(req.params.category === "funnyJoke"){
     joke = funnyJoke[Math.floor(Math.random() * funnyJoke.length)]
