@@ -33,7 +33,29 @@ app.get('/math/rectangle/:width/:height', (req, res) => {
     res.json(result);
 });
 
-//TODO3
+app.get('/math/power/:base/:exponent', (req, res) => {
+
+  const base = req.params.base;
+  const exponent = req.params.exponent;
+  const power = base**exponent;
+  const root = base**(1/2);
+  let result;
+
+  if(isNaN(power) || isNaN(root)){
+      res.status(400).json({error: 'Invalid input'})
+      return;
+  }
+
+  result = (req.query.root === 'true') ? {
+      result: power,
+      root: root
+  } :
+  {
+      result: power
+  };
+
+  res.json(result);
+});
 
 
 const PORT = process.env.PORT || 3000;
