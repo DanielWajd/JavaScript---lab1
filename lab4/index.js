@@ -14,12 +14,24 @@ app.get('/math/circle/:r', (req, res) => {
         area: area,
         circumference: circumference
     }
-    
+
     res.json(result);
 });
 
 //TODO2
+app.get('/math/rectangle/:width/:height', (req, res) => { 
+    const width = req.params.width;
+    const height = req.params.height;
+    const area = width*height;
+    const perimeter = 2*width+2*height;
 
+    const result = {
+        area: area,
+        perimeter: perimeter
+    }
+    
+    res.json(result);
+});
 
 //TODO3
 
